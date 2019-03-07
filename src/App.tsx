@@ -1,32 +1,53 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { FunctionComponent, useState } from 'react';
+import styled from 'styled-components';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Have a look in <code>README.md</code> for insturctions to hook up the React project to Salesforce. 
-          </p>
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <p>
-            Import callRemote to call apex methods.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+import { Users } from './types';
+
+import UsersList from './UsersList';
+import TasksView from './TasksView';
+
+const StyledApp = styled.div`
+  color: white;
+`
+
+const Panel = styled.div`
+  margin-right: 20px;
+`
+
+const AppHeader = styled.header`
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  font-size: calc(10px + 2vmin);
+  padding: 20px;
+`
+
+const App: FunctionComponent = () => {
+  const [users, setUsers] = useState<Users>({});
+  const [activeUser, setActiveUser] = useState('');
+
+  return (
+    <StyledApp>
+        <AppHeader>
+          <Panel>
+            <UsersList 
+              users={users} 
+              activeUser={activeUser} 
+              setUsers={setUsers} 
+              setActiveUser={setActiveUser}
+            />
+          </Panel>
+          <Panel>
+            <TasksView 
+              users={users}
+              activeUser={activeUser}
+              setUsers={setUsers}
+            />
+          </Panel>
+        </AppHeader>
+      </StyledApp>
+  )
 }
 
 export default App;

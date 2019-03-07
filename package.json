@@ -7,9 +7,11 @@
     "@types/node": "11.10.5",
     "@types/react": "16.8.7",
     "@types/react-dom": "16.8.2",
+    "@types/styled-components": "^4.1.12",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-scripts-sf": "2.9.0",
+    "styled-components": "^4.1.3",
     "typescript": "3.3.3333"
   },
   "scripts": {
