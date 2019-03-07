@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-import { Users } from './types';
+import { UsersState } from './core/types/userTypes';
 
-import UsersList from './UsersList';
-import TasksView from './TasksView';
+import UsersList from './web/usersList/UsersListContainer';
+import TasksView from './web/tasksList/TasksViewContainer';
 
 const StyledApp = styled.div`
   color: white;
@@ -24,26 +24,14 @@ const AppHeader = styled.header`
 `
 
 const App: FunctionComponent = () => {
-  const [users, setUsers] = useState<Users>({});
-  const [activeUser, setActiveUser] = useState('');
-
   return (
     <StyledApp>
         <AppHeader>
           <Panel>
-            <UsersList 
-              users={users} 
-              activeUser={activeUser} 
-              setUsers={setUsers} 
-              setActiveUser={setActiveUser}
-            />
+            <UsersList />
           </Panel>
           <Panel>
-            <TasksView 
-              users={users}
-              activeUser={activeUser}
-              setUsers={setUsers}
-            />
+            <TasksView />
           </Panel>
         </AppHeader>
       </StyledApp>

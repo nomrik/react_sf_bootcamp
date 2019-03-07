@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-import Button from './Button';
-import { Users } from './types';
+import Button from '../common/Button';
+import { Users } from '../../core/types/userTypes';
+import { TasksState } from '../../core/types/taskTypes';
 
 
 interface StyledUserProps {
@@ -20,43 +21,39 @@ const StyledMiniTaskList = styled.ul`
 
 interface Props {
     users: Users,
-    activeUser: string,
-    setUsers: Function,
-    setActiveUser: Function
+    tasks: TasksState,
+    selectedUser: string,
+    onSelectUser: Function,
+    onAddUser: Function
 }
 
-const UsersList: FunctionComponent<Props> = (props) => {
-    const { users, activeUser, setUsers, setActiveUser } = props;
-    const [newUser, setNewUser] = useState('');
-    const [hoveredUser, setHoveredUser] = useState('');
+const UsersListComponent: FunctionComponent<Props> = (props) => {
+    const { users, selectedUser, onSelectUser, onAddUser, tasks } = props;
+    const [ hoveredUser, setHoveredUser ] = useState('');
+    const [ newUser, setNewUser ] = useState('');
 
     return (
         <div>
             <h2>Users</h2>
             <input value={newUser} onChange={e => setNewUser(e.target.value)} />
             <Button onClick={() => {
-                setUsers({
-                    ...users,
-                    [newUser]: {
-                        name: newUser,
-                        tasks: []
-                    }
-                });
-                setActiveUser(newUser);
+                onAddUser(newUser);
+                onSelectUser(newUser);
             }}>add</Button>
             <ul>
                 {
                     Object.values(users).map(user => 
-                        <StyledUser 
-                            isActive={user.name === activeUser}
-                            onClick={() => setActiveUser(user.name)}
+                        <StyledUser
+                            key={user.name} 
+                            isActive={user.name === selectedUser}
+                            onClick={() => onSelectUser(user.name)}
                             onMouseEnter={() => setHoveredUser(user.name)}
                             onMouseLeave={() => setHoveredUser('')}
                         >
                             {user.name}
-                            {(hoveredUser === user.name || activeUser === user.name) && 
+                            {(hoveredUser === user.name || selectedUser === user.name) && 
                                 <StyledMiniTaskList>
-                                    {user.tasks.map(task => <li>{task}</li>)}
+                                    {user.tasks.map((task: string) => tasks[task] && <li key={task}>{tasks[task].description}</li>)}
                                 </StyledMiniTaskList>
                             }
                         </StyledUser>)
@@ -66,5 +63,5 @@ const UsersList: FunctionComponent<Props> = (props) => {
     );
 }
 
-export default UsersList;
+export default UsersListComponent;
 

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, MouseEvent } from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
@@ -6,7 +6,7 @@ const StyledButton = styled.button`
 `
 
 interface Props {
-    onClick: Function
+    onClick(e: MouseEvent): void
 }
 
 const Button: FunctionComponent<Props> = (props) => {
