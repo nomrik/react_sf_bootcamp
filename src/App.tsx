@@ -1,28 +1,56 @@
 import React, { Component } from 'react';
-import './App.css';
 
-class App extends Component {
+import './App.css';
+import UsersList from './UsersList';
+import { Users } from './types';
+
+interface State {
+  users: Users,
+  activeUser: string
+}
+
+class App extends Component<object, State> {
+  constructor(props: object) {
+    super(props);
+    
+    this.state = {
+      users: {},
+      activeUser: ''
+    }
+
+    this.addUser = this.addUser.bind(this);
+    this.setActiveUser = this.setActiveUser.bind(this);
+  }
+
+  addUser(userName: string) {
+    const { users } = this.state;
+
+    const newUsers = {
+      ...users,
+      [userName]: {
+        name: userName,
+        tasks: []
+      }
+    }
+
+    this.setState({
+      users: newUsers
+    });
+  }
+
+  setActiveUser(userName: string) {
+    this.setState({
+      activeUser: userName
+    });
+  }
+
   render() {
+    const { users, activeUser } = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
-          <p>
-            Have a look in <code>README.md</code> for insturctions to hook up the React project to Salesforce. 
-          </p>
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <p>
-            Import callRemote to call apex methods.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <UsersList users={users} activeUser={activeUser} addUser={this.addUser} setActiveUser={this.setActiveUser} />
         </header>
       </div>
     );
