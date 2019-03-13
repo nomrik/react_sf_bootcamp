@@ -1,11 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Button from '../common/Button';
 import TaskListItem, { TaskSize } from '../common/TaskListItem';
 import { Users } from '../../core/types/userTypes';
 import { TasksState } from '../../core/types/taskTypes';
-
 
 interface StyledUserProps {
     isActive: boolean
@@ -20,14 +19,19 @@ interface Props {
     users: Users,
     tasks: TasksState,
     selectedUser: string,
-    onSelectUser: Function,
-    onAddUser: Function
+    onSelectUser(userName: string) : void,
+    onAddUser(userName: string) : void,
+    onLoadUsers() : void
 }
 
 const UsersListComponent: FunctionComponent<Props> = (props) => {
-    const { users, selectedUser, onSelectUser, onAddUser, tasks } = props;
+    const { users, selectedUser, onSelectUser, onAddUser, tasks, onLoadUsers } = props;
     const [ hoveredUser, setHoveredUser ] = useState('');
     const [ newUser, setNewUser ] = useState('');
+
+    useEffect(() => {
+        onLoadUsers()
+    }, []);
 
     return (
         <div>
@@ -41,14 +45,14 @@ const UsersListComponent: FunctionComponent<Props> = (props) => {
                 {
                     Object.values(users).map(user => 
                         <StyledUser
-                            key={user.name} 
-                            isActive={user.name === selectedUser}
-                            onClick={() => onSelectUser(user.name)}
-                            onMouseEnter={() => setHoveredUser(user.name)}
+                            key={user.id} 
+                            isActive={user.id === selectedUser}
+                            onClick={() => onSelectUser(user.id)}
+                            onMouseEnter={() => setHoveredUser(user.id)}
                             onMouseLeave={() => setHoveredUser('')}
                         >
                             {user.name}
-                            {(hoveredUser === user.name || selectedUser === user.name) && 
+                            {(hoveredUser === user.id || selectedUser === user.id) && 
                                 <ul>
                                     {user.tasks.map((taskName: string) => tasks[taskName] && 
                                         <TaskListItem key={taskName} task={tasks[taskName]} size={TaskSize.Small} />)

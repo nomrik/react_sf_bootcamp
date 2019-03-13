@@ -1,5 +1,10 @@
 export interface User {
+    id: string,
     name: string,
+    description?: string,
+    phone?: string,
+    fax?: string,
+    type?: string,
     tasks: string[]
 }
 

@@ -1,5 +1,6 @@
 import { UsersState } from '../types/userTypes';
-import { UserAction, ADD_USER, SELECT_USER } from '../actionTypes/userActionTypes';
+import { mapValues } from 'lodash'
+import { UserAction, ADD_USER, SELECT_USER, LOAD_USERS_SUCCESS } from '../actionTypes/userActionTypes';
 import { TaskAction, ADD_TASK, DELETE_TASK } from '../actionTypes/taskActionTypes';
 
 const initialState: UsersState = {
@@ -14,7 +15,7 @@ export default function usersReducer(state: UsersState = initialState, action: U
                 ...state,
                 users: {
                     ...state.users,
-                    [action.user.name]: action.user
+                    [action.user.id]: action.user
                 }
             };
         case SELECT_USER:
@@ -22,6 +23,14 @@ export default function usersReducer(state: UsersState = initialState, action: U
                 ...state,
                 selectedUser: action.userName
             };
+        case LOAD_USERS_SUCCESS:
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    ...mapValues(action.payload, user => ({...user, tasks: []}))
+                }
+            }
         case ADD_TASK: {
             const currentUser = state.users[action.task.user];
             return {

@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { AppState } from '../../core/reducers/rootReducer';
 import { getUsers, getSelectedUser } from '../../core/selectors/userSelectors';
 import { getTasks } from '../../core/selectors/taskSelectors';
-import { addUser, selectUser } from '../../core/actionCreators/userActionCreators';
+import { addUser, selectUser, loadUsers } from '../../core/actionCreators/userActionCreators';
 import { UserAction } from '../../core/actionTypes/userActionTypes';
 
 import UsersListComponent from './UsersListComponent';
@@ -24,6 +24,9 @@ const mapDispatchToProps = (dispatch: Dispatch<UserAction>) => {
         },
         onSelectUser: (userName: string) => {
             dispatch(selectUser(userName));
+        },
+        onLoadUsers: () => {
+            dispatch(loadUsers())
         }
     }
 }

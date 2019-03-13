@@ -1,7 +1,5 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-
-import { UsersState } from './core/types/userTypes';
 
 import UsersList from './web/usersList/UsersListContainer';
 import TasksView from './web/tasksList/TasksViewContainer';
