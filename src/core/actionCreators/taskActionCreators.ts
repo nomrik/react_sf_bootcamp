@@ -2,7 +2,9 @@ import {
     ADD_TASK,
     AddTaskAction,
     DELETE_TASK,
-    DeleteTaskAction
+    DeleteTaskAction,
+    SET_TASK_IS_DONE,
+    SetTaskIsDoneAction
 } from '../actionTypes/taskActionTypes';
 
 export function addTask(taskName: string, userName: string) : AddTaskAction {
@@ -11,6 +13,7 @@ export function addTask(taskName: string, userName: string) : AddTaskAction {
         task: {
             description: taskName,
             user: userName,
+            isDone: false
         }
     }
 }
@@ -20,5 +23,12 @@ export function deleteTask(taskName: string, userName: string) : DeleteTaskActio
         type: DELETE_TASK,
         taskName,
         userName
+    }
+}
+
+export function setTaskIsDone(taskName: string) : SetTaskIsDoneAction {
+    return {
+        type: SET_TASK_IS_DONE,
+        taskName
     }
 }

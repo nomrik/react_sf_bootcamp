@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import Button from '../common/Button';
+import TaskListItem, { TaskSize } from '../common/TaskListItem';
 import { Users } from '../../core/types/userTypes';
 import { TasksState } from '../../core/types/taskTypes';
 
@@ -13,10 +14,6 @@ interface StyledUserProps {
 const StyledUser = styled.li`
     font-weight: ${(props: StyledUserProps) => props.isActive ? 'bold' : 'regular'};
     cursor: pointer;
-`
-
-const StyledMiniTaskList = styled.ul`
-    font-size: 10px;
 `
 
 interface Props {
@@ -52,9 +49,11 @@ const UsersListComponent: FunctionComponent<Props> = (props) => {
                         >
                             {user.name}
                             {(hoveredUser === user.name || selectedUser === user.name) && 
-                                <StyledMiniTaskList>
-                                    {user.tasks.map((task: string) => tasks[task] && <li key={task}>{tasks[task].description}</li>)}
-                                </StyledMiniTaskList>
+                                <ul>
+                                    {user.tasks.map((taskName: string) => tasks[taskName] && 
+                                        <TaskListItem key={taskName} task={tasks[taskName]} size={TaskSize.Small} />)
+                                    }
+                                </ul>
                             }
                         </StyledUser>)
                 }

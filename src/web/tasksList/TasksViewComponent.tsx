@@ -1,19 +1,27 @@
 import React, { FunctionComponent, useState } from 'react';
+import styled from 'styled-components';
 
 import { Users } from '../../core/types/userTypes';
 import Button from '../common/Button';
+import TaskListItem from '../common/TaskListItem';
 import { Task } from '../../core/types/taskTypes';
+
+const TaskContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`
 
 interface Props {
     selectedUser: string,
     users: Users,
     tasks: Task[],
-    onAddTask: Function,
-    onDeleteTask: Function
+    onAddTask(taskName: string, userName: string) : void,
+    onDeleteTask(taskName: string, userName: string) : void,
+    onSetTaskIsDone(taskName: string) : void
 }
 
 const TasksViewComponent: FunctionComponent<Props> = (props) => {
-    const { tasks, selectedUser, users, onAddTask, onDeleteTask } = props;
+    const { tasks, selectedUser, users, onAddTask, onDeleteTask, onSetTaskIsDone } = props;
     const [newTask, setNewTask] = useState('');
 
     const user = users[selectedUser];
@@ -32,13 +40,17 @@ const TasksViewComponent: FunctionComponent<Props> = (props) => {
                     setNewTask('');
                 }}>add</Button>
             <ul>
-                {tasks.map(task => 
-                    <li key={task.description}> 
-                        {task.description}
-                        <button onClick={() => {
-                            onDeleteTask(task.description, selectedUser);
-                        }}>delete</button>
-                    </li>)
+                {tasks.map(task =>
+                    <TaskContainer>
+                        <TaskListItem 
+                            key={task.description}
+                            task={task}
+                            onClick={() => onSetTaskIsDone(task.description)}
+                        /> 
+                        <Button onClick={() => {
+                                onDeleteTask(task.description, selectedUser);
+                            }}>delete</Button>
+                    </TaskContainer>)
                 }
             </ul>
         </div>

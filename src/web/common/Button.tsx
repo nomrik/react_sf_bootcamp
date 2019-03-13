@@ -6,13 +6,13 @@ const StyledButton = styled.button`
 `
 
 interface Props {
-    onClick(e: MouseEvent): void
+    onClick?(e: MouseEvent): void
 }
 
 const Button: FunctionComponent<Props> = (props) => {
-    const { onClick = () => {}, children } = props;
+    const { onClick, children } = props;
     return (
-        <StyledButton onClick={(e) => onClick(e)}>
+        <StyledButton onClick={(e) => onClick && onClick(e)}>
             {children}
         </StyledButton>
     )

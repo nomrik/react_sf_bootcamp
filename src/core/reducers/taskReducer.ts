@@ -1,7 +1,7 @@
 import { omit } from 'lodash';
 
 import { TasksState } from '../types/taskTypes';
-import { TaskAction, ADD_TASK, DELETE_TASK } from '../actionTypes/taskActionTypes';
+import { TaskAction, ADD_TASK, DELETE_TASK, SET_TASK_IS_DONE } from '../actionTypes/taskActionTypes';
 
 const initialState : TasksState = {};
 
@@ -17,6 +17,15 @@ export default function taskReducer(state: TasksState = initialState, action: Ta
                 state,
                 [action.taskName]
             );
+        case SET_TASK_IS_DONE:
+            const { taskName } = action;
+            return {
+                ...state,
+                [taskName]: {
+                    ...state[taskName],
+                    isDone: !state[taskName].isDone
+                }
+            }
         default:
             return state;
     }

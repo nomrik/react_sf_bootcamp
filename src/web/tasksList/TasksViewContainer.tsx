@@ -4,7 +4,7 @@ import { AppState } from '../../core/reducers/rootReducer';
 import { getSelectedUser, getUsers } from '../../core/selectors/userSelectors';
 import { getTasksByUser } from '../../core/selectors/taskSelectors';
 import { TaskAction } from '../../core/actionTypes/taskActionTypes';
-import { addTask, deleteTask } from '../../core/actionCreators/taskActionCreators';
+import { addTask, deleteTask, setTaskIsDone } from '../../core/actionCreators/taskActionCreators';
 
 import TasksViewComponent from './TasksViewComponent';
 
@@ -24,6 +24,9 @@ const mapDispatchToProps = (dispatch: Dispatch<TaskAction>) => {
         },
         onDeleteTask: (taskName: string, selectedUser: string) => {
             dispatch(deleteTask(taskName, selectedUser))
+        },
+        onSetTaskIsDone: (taskName: string) => {
+            dispatch(setTaskIsDone(taskName))
         }
     }
 }
